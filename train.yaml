@@ -1,18 +1,19 @@
 accum_grad: 1
-cmvn_file: exp/u2++_conformer_esun200_bpe4/global_cmvn
+cmvn_file: exp/u2pp_conformer_oraclea100_3_ft_esun//global_cmvn
 dataset_conf:
   batch_conf:
     batch_size: 16
     batch_type: dynamic
+    max_frames_in_batch: 14000
   fbank_conf:
     dither: 1.0
     frame_length: 25
     frame_shift: 10
     num_mel_bins: 80
   filter_conf:
-    max_length: 40960
+    max_length: 20480
     min_length: 0
-    token_max_length: 200
+    token_max_length: 400
     token_min_length: 1
   resample_conf:
     resample_rate: 16000
@@ -32,10 +33,13 @@ dataset_conf:
   spec_sub_conf:
     max_t: 30
     num_t_sub: 3
-  speed_perturb: true
+  spec_trim: false
+  spec_trim_conf:
+    max_t: 50
+  speed_perturb: false
 decoder: bitransformer
 decoder_conf:
-  attention_heads: 4
+  attention_heads: 8
   dropout_rate: 0.1
   linear_units: 2048
   num_blocks: 3
@@ -47,7 +51,7 @@ encoder: conformer
 encoder_conf:
   activation_type: swish
   attention_dropout_rate: 0.1
-  attention_heads: 4
+  attention_heads: 8
   causal: true
   cnn_module_kernel: 8
   cnn_module_norm: layer_norm
@@ -56,7 +60,7 @@ encoder_conf:
   linear_units: 2048
   normalize_before: true
   num_blocks: 12
-  output_size: 256
+  output_size: 512
   pos_enc_layer_type: rel_pos
   positional_dropout_rate: 0.1
   selfattention_layer_type: rel_selfattn
@@ -67,7 +71,7 @@ grad_clip: 5
 input_dim: 80
 is_json_cmvn: true
 log_interval: 100
-max_epoch: 50
+max_epoch: 30
 model_conf:
   ctc_weight: 0.3
   length_normalized_loss: false
@@ -75,8 +79,8 @@ model_conf:
   reverse_weight: 0.3
 optim: adam
 optim_conf:
-  lr: 0.001
-output_dim: 7635
+  lr: 0.002
+output_dim: 7723
 scheduler: warmuplr
 scheduler_conf:
-  warmup_steps: 25000
+  warmup_steps: 0
